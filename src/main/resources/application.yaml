@@ -1,6 +1,11 @@
 spring:
   application:
     name: spring-boot-dasar
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/bootcamp_db
+    username: postgres
+    password: 1234
 
 name:
   firstName: Latif
@@ -8,3 +13,4 @@ name:
 
 server:
   port: 9090
+
