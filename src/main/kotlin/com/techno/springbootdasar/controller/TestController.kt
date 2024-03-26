@@ -3,6 +3,7 @@ package com.techno.springbootdasar.controller
 import com.techno.springbootdasar.domain.dto.req.ReqBiodataaDto
 import com.techno.springbootdasar.domain.dto.req.ReqNumberDto
 import com.techno.springbootdasar.domain.dto.res.ResBiodataDto
+import com.techno.springbootdasar.service.BiodataService
 import com.techno.springbootdasar.service.LogicService
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.http.ResponseEntity
@@ -18,7 +19,8 @@ import org.springframework.web.bind.annotation.RestController
 class TestController (
     @Value("\${name.firstName}") private val firstName: String,
     @Value("\${name.lastName}") private val lastName: String,
-    private val logicService: LogicService
+    private val logicService: LogicService,
+    val biodataService: BiodataService
 ){
 
     @GetMapping("/test")
@@ -54,6 +56,12 @@ class TestController (
             lastName = "irfan"
         )
 
+        return ResponseEntity.ok(response)
+    }
+
+    @GetMapping("/apiservice")
+    fun getApiWithService(): ResponseEntity<ResBiodataDto>{
+        val response = biodataService.getBiodata()
         return ResponseEntity.ok(response)
     }
 
