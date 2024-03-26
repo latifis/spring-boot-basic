@@ -1,0 +1,10 @@
+spring:
+  application:
+    name: spring-boot-dasar
+
+name:
+  firstName: Latif
+  lastName: irfan
+
+server:
+  port: 9090
