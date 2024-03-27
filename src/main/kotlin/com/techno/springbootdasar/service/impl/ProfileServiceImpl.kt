@@ -30,7 +30,16 @@ class ProfileServiceImpl (
     }
 
     override fun update(uuid: UUID, req: ReqProfileDto): ResMessageDto<String> {
-        TODO("Not yet implemented")
+        val checkId = profileRepository.findById(uuid)
+
+        checkId.get().name = req.name
+        checkId.get().username = req.username
+        checkId.get().email = req.email
+        checkId.get().password = req.password
+
+        profileRepository.save(checkId.get())
+
+        return ResMessageDto()
     }
 
     override fun detail(uuid: UUID): ResMessageDto<ResProfileDto> {
