@@ -1,8 +1,6 @@
 package com.techno.springbootdasar.controller
 
-import com.techno.springbootdasar.domain.dto.req.ReqNumberDto
 import com.techno.springbootdasar.domain.dto.req.ReqPerhitunganDto
-import com.techno.springbootdasar.domain.dto.res.ResBiodataDto
 import com.techno.springbootdasar.domain.dto.res.ResHasilDto
 import com.techno.springbootdasar.service.PerhitunganService
 import org.springframework.http.ResponseEntity
@@ -10,7 +8,7 @@ import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping("/v1/api")
-class PerhitunganController (
+class cPerhitunganController (
     val perhitunganService: PerhitunganService
 ) {
     @PostMapping("/penjumlahan")
