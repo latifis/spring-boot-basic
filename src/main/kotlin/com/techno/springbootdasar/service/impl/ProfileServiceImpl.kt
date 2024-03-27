@@ -6,6 +6,7 @@ import com.techno.springbootdasar.domain.dto.res.ResMessageDto
 import com.techno.springbootdasar.domain.dto.res.ResProfileDto
 import com.techno.springbootdasar.domain.entity.MotorEntity
 import com.techno.springbootdasar.domain.entity.ProfileEntity
+import com.techno.springbootdasar.exception.DataExist
 import com.techno.springbootdasar.exception.DataNotFoundException
 import com.techno.springbootdasar.repository.ProfileRepository
 import com.techno.springbootdasar.service.ProfileService
@@ -17,14 +18,26 @@ class ProfileServiceImpl (
     val profileRepository: ProfileRepository
 ) : ProfileService{
     override fun insert(req: ReqProfileDto): ResMessageDto<String> {
-        val insert = ProfileEntity(
-            id = UUID.randomUUID(),
-            name = req.name,
-            username = req.username,
-            email = req.email,
-            password = req.password
-        )
-        profileRepository.save(insert)
+
+        val existingUsername = profileRepository.findByUsername(req.username)
+        val existingEmail = profileRepository.findByEmail(req.email)
+
+        if (existingEmail != null && existingUsername != null) {
+            throw DataExist("Nama dan Username Profil Sudah Ada")
+        } else if (existingEmail != null) {
+            throw DataExist("Name Profil Sudah Ada")
+        } else if (existingUsername != null) {
+            throw DataExist("Username Profil Sudah Ada")
+        } else {
+            val insert = ProfileEntity(
+                id = UUID.randomUUID(),
+                name = req.name,
+                username = req.username,
+                email = req.email,
+                password = req.password
+            )
+            profileRepository.save(insert)
+        }
 
         return ResMessageDto()
     }
