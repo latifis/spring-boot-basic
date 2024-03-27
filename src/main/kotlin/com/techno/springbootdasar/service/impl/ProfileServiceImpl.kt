@@ -6,6 +6,7 @@ import com.techno.springbootdasar.domain.dto.res.ResMessageDto
 import com.techno.springbootdasar.domain.dto.res.ResProfileDto
 import com.techno.springbootdasar.domain.entity.MotorEntity
 import com.techno.springbootdasar.domain.entity.ProfileEntity
+import com.techno.springbootdasar.exception.DataNotFoundException
 import com.techno.springbootdasar.repository.ProfileRepository
 import com.techno.springbootdasar.service.ProfileService
 import org.springframework.stereotype.Service
@@ -33,7 +34,20 @@ class ProfileServiceImpl (
     }
 
     override fun detail(uuid: UUID): ResMessageDto<ResProfileDto> {
-        TODO("Not yet implemented")
+        val checkId = profileRepository.findById(uuid)
+
+        if(!checkId.isPresent)
+            throw DataNotFoundException("ID Profile Tidak Ada")
+
+        val response = ResProfileDto(
+            id = checkId.get().id!!,
+            name = checkId.get().name!!,
+            username = checkId.get().username!!,
+            email = checkId.get().email!!,
+            password = checkId.get().password!!
+        )
+
+        return ResMessageDto(data = response)
     }
 
     override fun list(): ResMessageDto<List<ResProfileDto>> {
