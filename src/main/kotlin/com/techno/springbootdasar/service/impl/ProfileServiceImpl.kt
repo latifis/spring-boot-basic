@@ -32,6 +32,9 @@ class ProfileServiceImpl (
     override fun update(uuid: UUID, req: ReqProfileDto): ResMessageDto<String> {
         val checkId = profileRepository.findById(uuid)
 
+        if(!checkId.isPresent)
+            throw DataNotFoundException("ID Profile Tidak Ada")
+
         checkId.get().name = req.name
         checkId.get().username = req.username
         checkId.get().email = req.email
