@@ -78,6 +78,7 @@ class ProfileServiceImpl (
     }
 
     override fun delete(uuid: UUID): ResMessageDto<String> {
-        TODO("Not yet implemented")
+        val deleted = profileRepository.deleteById(uuid)
+        return ResMessageDto()
     }
 }
