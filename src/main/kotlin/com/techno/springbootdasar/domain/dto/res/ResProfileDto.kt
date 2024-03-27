@@ -9,12 +9,12 @@ import java.util.UUID
 
 data class ResProfileDto(
 
-    val id: UUID,
+    val id: UUID?,
 
-    val name: String,
+    val name: String?,
 
-    val username: String,
+    val username: String?,
 
-    val email: String
+    val email: String?
 
 )

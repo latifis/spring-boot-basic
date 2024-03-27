@@ -17,7 +17,7 @@ import java.util.*
 class ProfileServiceImpl (
     val profileRepository: ProfileRepository
 ) : ProfileService{
-    override fun insert(req: ReqProfileDto): ResMessageDto<String> {
+    override fun insert(req: ReqProfileDto): ResMessageDto<ResProfileDto> {
 
         val existingUsername = profileRepository.findByUsername(req.username)
         val existingEmail = profileRepository.findByEmail(req.email)
@@ -36,13 +36,18 @@ class ProfileServiceImpl (
                 email = req.email,
                 password = req.password
             )
-            profileRepository.save(insert)
+            val savedProfile = profileRepository.save(insert)
+            val resProfileDto = ResProfileDto(
+                id = savedProfile.id,
+                name = savedProfile.name,
+                username = savedProfile.username,
+                email = savedProfile.email
+            )
+            return ResMessageDto(data = resProfileDto)
         }
-
-        return ResMessageDto()
     }
 
-    override fun update(uuid: UUID, req: ReqProfileDto): ResMessageDto<String> {
+    override fun update(uuid: UUID, req: ReqProfileDto): ResMessageDto<ResProfileDto> {
         val checkId = profileRepository.findById(uuid)
 
         if(!checkId.isPresent)
@@ -51,9 +56,15 @@ class ProfileServiceImpl (
         checkId.get().name = req.name
         checkId.get().password = req.password
 
-        profileRepository.save(checkId.get())
 
-        return ResMessageDto()
+        val updateProfile = profileRepository.save(checkId.get())
+        val resProfileDto = ResProfileDto(
+            id = updateProfile.id,
+            name = updateProfile.name,
+            username = updateProfile.username,
+            email = updateProfile.email
+        )
+        return ResMessageDto(data = resProfileDto)
     }
 
     override fun detail(uuid: UUID): ResMessageDto<ResProfileDto> {

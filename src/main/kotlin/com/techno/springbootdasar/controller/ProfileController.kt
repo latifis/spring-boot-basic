@@ -1,7 +1,6 @@
 package com.techno.springbootdasar.controller
 
 import com.techno.springbootdasar.domain.dto.req.ReqProfileDto
-import com.techno.springbootdasar.domain.dto.res.ResGetMotorDto
 import com.techno.springbootdasar.domain.dto.res.ResMessageDto
 import com.techno.springbootdasar.domain.dto.res.ResProfileDto
 import com.techno.springbootdasar.service.ProfileService
@@ -16,7 +15,7 @@ class ProfileController (
     val profileService: ProfileService
 ){
     @PostMapping()
-    fun insert(@Valid @RequestBody req: ReqProfileDto): ResponseEntity<ResMessageDto<String>> {
+    fun insert(@Valid @RequestBody req: ReqProfileDto): ResponseEntity<ResMessageDto<ResProfileDto>> {
         val response = profileService.insert(req)
         return ResponseEntity.ok(response)
 //        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(response)
@@ -25,7 +24,7 @@ class ProfileController (
     fun update(
         @RequestParam uuid: UUID,
         @RequestBody req: ReqProfileDto
-    ): ResponseEntity<ResMessageDto<String>> {
+    ): ResponseEntity<ResMessageDto<ResProfileDto>> {
         val response = profileService.update(uuid, req)
         return ResponseEntity.ok(response)
     }
