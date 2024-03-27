@@ -6,6 +6,8 @@ import com.techno.springbootdasar.domain.dto.res.ResGetMotorDto
 import com.techno.springbootdasar.domain.dto.res.ResHasilDto
 import com.techno.springbootdasar.domain.dto.res.ResMessageDto
 import com.techno.springbootdasar.service.CRUDService
+import jakarta.validation.Valid
+import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 import java.util.UUID
@@ -16,9 +18,10 @@ class CRUDController (
     val crudService: CRUDService
 ){
     @PostMapping()
-    fun insert(@RequestBody req: ReqInsertDto): ResponseEntity<ResMessageDto<String>> {
+    fun insert(@Valid @RequestBody req: ReqInsertDto): ResponseEntity<ResMessageDto<String>> {
         val response = crudService.insert(req)
         return ResponseEntity.ok(response)
+//        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(response)
     }
     @PutMapping()
     fun update(

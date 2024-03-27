@@ -4,6 +4,7 @@ import com.techno.springbootdasar.domain.dto.req.ReqInsertDto
 import com.techno.springbootdasar.domain.dto.res.ResGetMotorDto
 import com.techno.springbootdasar.domain.dto.res.ResMessageDto
 import com.techno.springbootdasar.domain.entity.MotorEntity
+import com.techno.springbootdasar.exception.DataNotFoundException
 import com.techno.springbootdasar.repository.MotorRepository
 import com.techno.springbootdasar.service.CRUDService
 import org.springframework.stereotype.Service
@@ -37,6 +38,9 @@ class CRUDServiceImpl (
 
     override fun detail(uuid: UUID): ResMessageDto<ResGetMotorDto> {
         val checkId = motorRepository.findById(uuid)
+
+        if(!checkId.isPresent)
+            throw DataNotFoundException("ID Motor Tidak Ada")
 
         val response = ResGetMotorDto(
             id = checkId.get().id!!,

@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonInclude
 
 data class ResMessageDto<T>(
 
-    val status: Int=200,
+    val status: String="200",
 
     val message: String="Success",
 
