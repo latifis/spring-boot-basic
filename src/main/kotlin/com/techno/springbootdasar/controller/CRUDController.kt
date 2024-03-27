@@ -2,10 +2,12 @@ package com.techno.springbootdasar.controller
 
 import com.techno.springbootdasar.domain.dto.req.ReqInsertDto
 import com.techno.springbootdasar.domain.dto.req.ReqPerhitunganDto
+import com.techno.springbootdasar.domain.dto.res.ResGetMotorDto
 import com.techno.springbootdasar.domain.dto.res.ResHasilDto
 import com.techno.springbootdasar.domain.dto.res.ResMessageDto
 import com.techno.springbootdasar.service.CRUDService
 import org.springframework.http.ResponseEntity
+import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.PutMapping
 import org.springframework.web.bind.annotation.RequestBody
@@ -30,6 +32,20 @@ class CRUDController (
         @RequestBody req: ReqInsertDto
     ): ResponseEntity<ResMessageDto<String>> {
         val response = crudService.update(uuid, req)
+        return ResponseEntity.ok(response)
+    }
+
+    @GetMapping("/detail")
+    fun detail(
+        @RequestParam uuid: UUID
+    ): ResponseEntity<ResMessageDto<ResGetMotorDto>> {
+        val response = crudService.detail(uuid)
+        return ResponseEntity.ok(response)
+    }
+
+    @GetMapping("/list")
+    fun list(): ResponseEntity<ResMessageDto<List<ResGetMotorDto>>> {
+        val response = crudService.list()
         return ResponseEntity.ok(response)
     }
 
