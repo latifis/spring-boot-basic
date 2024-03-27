@@ -94,7 +94,13 @@ class ProfileServiceImpl (
     }
 
     override fun delete(uuid: UUID): ResMessageDto<String> {
-        val deleted = profileRepository.deleteById(uuid)
+        val checkId = profileRepository.findById(uuid)
+
+        if(!checkId.isPresent)
+            throw DataNotFoundException("ID Profile Tidak Ada")
+
+        profileRepository.deleteById(uuid)
+
         return ResMessageDto()
     }
 }
