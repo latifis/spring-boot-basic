@@ -8,23 +8,21 @@ import org.jetbrains.annotations.NotNull
 
 data class ReqProfileDto(
 
-    @field:NotNull
     @field:NotBlank(message = "Nama tidak boleh kosong")
-    @field:Pattern(regexp = "^[a-zA-Z]*\$", message = "Hanya huruf yang diperbolehkan")
+    @field:Pattern(regexp = "^[a-zA-Z ]*\$", message = "Hanya huruf yang diperbolehkan")
     @field:Size(max = 100, message = "Nama tidak boleh lebih dari 100 karakter")
-    val nama: String,
+    val name: String?,
 
     @field:NotEmpty(message = "Username tidak boleh kosong")
     @field:Size(max = 32, message = "Username tidak boleh lebih dari 32 karakter")
-    val username: String,
+    @field:Pattern(regexp = "^[^\\s]*\$", message = "Username tidak boleh ada spasi")
+    val username: String?,
 
-    @field:NotNull
-    @field:NotBlank(message = "Nama tidak boleh kosong")
+    @field:NotBlank(message = "Email tidak boleh kosong")
     @field:Pattern(regexp = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}\$", message = "Alamat email tidak valid")
-    val email: String,
+    val email: String?,
 
-    @field:NotNull
     @field:Size(max = 32, message = "Password tidak boleh lebih dari 32 karakter")
-    val password: String
+    val password: String?
 
 )

@@ -13,7 +13,7 @@ data class ProfileEntity(
     val id: UUID? = null,
 
     @Column(name = "nama")
-    var nama:String? = null,
+    var name:String? = null,
 
     @Column(name = "username")
     var username:String? = null,
