@@ -49,8 +49,6 @@ class ProfileServiceImpl (
             throw DataNotFoundException("ID Profile Tidak Ada")
 
         checkId.get().name = req.name
-        checkId.get().username = req.username
-        checkId.get().email = req.email
         checkId.get().password = req.password
 
         profileRepository.save(checkId.get())
@@ -68,8 +66,7 @@ class ProfileServiceImpl (
             id = checkId.get().id!!,
             name = checkId.get().name!!,
             username = checkId.get().username!!,
-            email = checkId.get().email!!,
-            password = checkId.get().password!!
+            email = checkId.get().email!!
         )
 
         return ResMessageDto(data = response)
@@ -84,8 +81,7 @@ class ProfileServiceImpl (
                 id = profile.id!!,
                 name = profile.name!!,
                 username = profile.username!!,
-                email = profile.email!!,
-                password = profile.password!!
+                email = profile.email!!
             )
             responseList.add(data)
         }
