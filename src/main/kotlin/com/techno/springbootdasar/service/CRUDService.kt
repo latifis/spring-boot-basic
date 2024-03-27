@@ -13,4 +13,6 @@ interface CRUDService {
     fun detail(uuid:UUID):ResMessageDto<ResGetMotorDto>
 
     fun list():ResMessageDto<List<ResGetMotorDto>>
+
+    fun delete(uuid: UUID): ResMessageDto<String>
 }

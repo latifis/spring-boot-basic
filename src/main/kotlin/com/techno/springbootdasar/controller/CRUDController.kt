@@ -7,13 +7,7 @@ import com.techno.springbootdasar.domain.dto.res.ResHasilDto
 import com.techno.springbootdasar.domain.dto.res.ResMessageDto
 import com.techno.springbootdasar.service.CRUDService
 import org.springframework.http.ResponseEntity
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.PutMapping
-import org.springframework.web.bind.annotation.RequestBody
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RequestParam
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 import java.util.UUID
 
 @RestController
@@ -47,6 +41,12 @@ class CRUDController (
     fun list(): ResponseEntity<ResMessageDto<List<ResGetMotorDto>>> {
         val response = crudService.list()
         return ResponseEntity.ok(response)
+    }
+
+    @DeleteMapping("/delete")
+    fun delete(@RequestParam uuid: UUID): ResponseEntity<ResMessageDto<String>>{
+        val res = crudService.delete(uuid)
+        return ResponseEntity.ok(res)
     }
 
 }

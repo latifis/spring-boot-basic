@@ -62,4 +62,9 @@ class CRUDServiceImpl (
 
         return ResMessageDto(data = responseList)
     }
+
+    override fun delete(uuid: UUID): ResMessageDto<String> {
+        val deleted = motorRepository.deleteById(uuid)
+        return ResMessageDto()
+    }
 }
