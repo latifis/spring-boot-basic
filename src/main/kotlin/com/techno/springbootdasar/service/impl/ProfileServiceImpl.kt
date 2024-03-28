@@ -19,7 +19,7 @@ class ProfileServiceImpl (
     val profileRepository: ProfileRepository,
     private val avatarApiClient: AvatarApiClient
 ) : ProfileService{
-    override fun insert(seed: String, req: ReqProfileDto): ResMessageDto<ResProfileDto> {
+    override fun insert(seed: String?, req: ReqProfileDto): ResMessageDto<ResProfileDto> {
 
         val existingUsername = profileRepository.findByUsername(req.username)
         val existingEmail = profileRepository.findByEmail(req.email)
@@ -34,7 +34,7 @@ class ProfileServiceImpl (
 
             var seeder = ""
 
-            if (seed != "") {
+            if (!seed.isNullOrBlank()) {
                 val responseEntity = avatarApiClient.getAvatar(seed = seed)
                 if (responseEntity.statusCode.is2xxSuccessful) {
                     seeder = String(responseEntity.body ?: byteArrayOf())

@@ -17,7 +17,7 @@ class ProfileController (
     @PostMapping()
     fun insert(
         @Valid
-        @RequestParam seed: String,
+        @RequestParam seed: String? = null,
         @RequestBody req: ReqProfileDto
     ): ResponseEntity<ResMessageDto<ResProfileDto>> {
         val response = profileService.insert(seed, req)

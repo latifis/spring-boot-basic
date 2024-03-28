@@ -16,7 +16,7 @@ interface AvatarApiClient {
         produces = ["image/svg+xml"]
     )
     fun getAvatar(
-        @RequestParam seed: String
+        @RequestParam seed: String?
     ): ResponseEntity<ByteArray>
 
 }
