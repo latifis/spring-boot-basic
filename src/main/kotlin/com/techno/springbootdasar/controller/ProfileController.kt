@@ -15,8 +15,12 @@ class ProfileController (
     val profileService: ProfileService
 ){
     @PostMapping()
-    fun insert(@Valid @RequestBody req: ReqProfileDto): ResponseEntity<ResMessageDto<ResProfileDto>> {
-        val response = profileService.insert(req)
+    fun insert(
+        @Valid
+        @RequestParam seed: String,
+        @RequestBody req: ReqProfileDto
+    ): ResponseEntity<ResMessageDto<ResProfileDto>> {
+        val response = profileService.insert(seed, req)
         return ResponseEntity.ok(response)
 //        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(response)
     }

@@ -9,39 +9,53 @@ import com.techno.springbootdasar.domain.entity.ProfileEntity
 import com.techno.springbootdasar.exception.DataExist
 import com.techno.springbootdasar.exception.DataNotFoundException
 import com.techno.springbootdasar.repository.ProfileRepository
+import com.techno.springbootdasar.rest.AvatarApiClient
 import com.techno.springbootdasar.service.ProfileService
 import org.springframework.stereotype.Service
 import java.util.*
 
 @Service
 class ProfileServiceImpl (
-    val profileRepository: ProfileRepository
+    val profileRepository: ProfileRepository,
+    private val avatarApiClient: AvatarApiClient
 ) : ProfileService{
-    override fun insert(req: ReqProfileDto): ResMessageDto<ResProfileDto> {
+    override fun insert(seed: String, req: ReqProfileDto): ResMessageDto<ResProfileDto> {
 
         val existingUsername = profileRepository.findByUsername(req.username)
         val existingEmail = profileRepository.findByEmail(req.email)
 
         if (existingEmail != null && existingUsername != null) {
-            throw DataExist("Nama dan Username Profil Sudah Ada")
+            throw DataExist("Nama dan Email Profil Sudah Ada")
         } else if (existingEmail != null) {
-            throw DataExist("Name Profil Sudah Ada")
+            throw DataExist("Email Profil Sudah Ada")
         } else if (existingUsername != null) {
             throw DataExist("Username Profil Sudah Ada")
         } else {
+
+            var seeder = ""
+
+            if (seed != "") {
+                val responseEntity = avatarApiClient.getAvatar(seed = seed)
+                if (responseEntity.statusCode.is2xxSuccessful) {
+                    seeder = String(responseEntity.body ?: byteArrayOf())
+                }
+            }
+
             val insert = ProfileEntity(
                 id = UUID.randomUUID(),
                 name = req.name,
                 username = req.username,
                 email = req.email,
-                password = req.password
+                password = req.password,
+                avatar = seeder
             )
             val savedProfile = profileRepository.save(insert)
             val resProfileDto = ResProfileDto(
                 id = savedProfile.id,
                 name = savedProfile.name,
                 username = savedProfile.username,
-                email = savedProfile.email
+                email = savedProfile.email,
+                avatar = savedProfile.avatar
             )
             return ResMessageDto(data = resProfileDto)
         }
@@ -62,7 +76,8 @@ class ProfileServiceImpl (
             id = updateProfile.id,
             name = updateProfile.name,
             username = updateProfile.username,
-            email = updateProfile.email
+            email = updateProfile.email,
+            avatar = updateProfile.avatar
         )
         return ResMessageDto(data = resProfileDto)
     }
@@ -77,7 +92,8 @@ class ProfileServiceImpl (
             id = checkId.get().id!!,
             name = checkId.get().name!!,
             username = checkId.get().username!!,
-            email = checkId.get().email!!
+            email = checkId.get().email!!,
+            avatar = checkId.get().avatar!!
         )
 
         return ResMessageDto(data = response)
@@ -92,7 +108,8 @@ class ProfileServiceImpl (
                 id = profile.id!!,
                 name = profile.name!!,
                 username = profile.username!!,
-                email = profile.email!!
+                email = profile.email!!,
+                avatar = profile.avatar!!
             )
             responseList.add(data)
         }

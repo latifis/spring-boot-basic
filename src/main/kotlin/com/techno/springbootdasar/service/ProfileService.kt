@@ -9,7 +9,7 @@ import java.util.*
 
 interface ProfileService{
 
-    fun insert(req: ReqProfileDto): ResMessageDto<ResProfileDto>
+    fun insert(seed: String, req: ReqProfileDto): ResMessageDto<ResProfileDto>
 
     fun update(uuid: UUID, req: ReqProfileDto): ResMessageDto<ResProfileDto>
 

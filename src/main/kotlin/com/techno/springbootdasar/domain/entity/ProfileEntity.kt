@@ -1,6 +1,7 @@
 package com.techno.springbootdasar.domain.entity
 
 import jakarta.persistence.*
+import org.w3c.dom.Text
 import java.util.*
 
 @Entity
@@ -22,6 +23,9 @@ data class ProfileEntity(
     var email:String? = null,
 
     @Column(name = "password")
-    var password:String? = null
+    var password:String? = null,
+
+    @Column(name = "avatar", columnDefinition = "TEXT")
+    var avatar:String? = null
 
 )

@@ -11,7 +11,7 @@ spring:
       hibernate:
         format_sql: true
         dialect: org.hibernate.dialect.PostgreSQLDialect
-        ddl-auto: none
+        ddl-auto: update
     show-sql: true
     generate-ddl: true
 
