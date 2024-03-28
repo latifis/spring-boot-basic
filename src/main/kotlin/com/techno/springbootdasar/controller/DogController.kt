@@ -1,5 +1,6 @@
 package com.techno.springbootdasar.controller
 
+import com.techno.springbootdasar.domain.dto.res.ResDogListDto
 import com.techno.springbootdasar.domain.dto.res.ResMessageDto
 import com.techno.springbootdasar.domain.dto.res.ResProfileDto
 import com.techno.springbootdasar.domain.dto.res.ResRandomImageDto
@@ -20,5 +21,10 @@ class DogController (
     @GetMapping("/random-image")
     fun getRandomDog(): ResRandomImageDto {
         return dogService.getDogImage()
+    }
+
+    @GetMapping("/list-image")
+    fun getListDog(): ResDogListDto? {
+        return dogService.getDogList()
     }
 }
