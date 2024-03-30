@@ -11,6 +11,7 @@ import com.techno.springbootdasar.exception.DataNotFoundException
 import com.techno.springbootdasar.repository.ProfileRepository
 import com.techno.springbootdasar.rest.AvatarApiClient
 import com.techno.springbootdasar.service.ProfileService
+import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
 import java.util.*
 
@@ -32,12 +33,14 @@ class ProfileServiceImpl (
             throw DataExist("Username Profil Sudah Ada")
         } else {
 
-            var seeder = ""
+            var seeder: String = ""
 
             if (!seed.isNullOrBlank()) {
                 val responseEntity = avatarApiClient.getAvatar(seed = seed)
+                val logger = LoggerFactory.getLogger("MyClass")
+                logger.info("ResponseEntity: {}", responseEntity.body)
                 if (responseEntity.statusCode.is2xxSuccessful) {
-                    seeder = String(responseEntity.body ?: byteArrayOf())
+                    seeder = responseEntity.body ?: ""
                 }
             }
 

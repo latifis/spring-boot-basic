@@ -17,6 +17,6 @@ interface AvatarApiClient {
     )
     fun getAvatar(
         @RequestParam seed: String?
-    ): ResponseEntity<ByteArray>
+    ): ResponseEntity<String>
 
 }
