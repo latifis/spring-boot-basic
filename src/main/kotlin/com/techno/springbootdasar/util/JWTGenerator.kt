@@ -1,8 +1,10 @@
 package com.techno.springbootdasar.util
 
 import com.techno.springbootdasar.domain.dto.req.ReqEncodeJWTDto
+import io.jsonwebtoken.Claims
 import io.jsonwebtoken.Jwt
 import io.jsonwebtoken.JwtBuilder
+import io.jsonwebtoken.JwtException
 import io.jsonwebtoken.Jwts
 import io.jsonwebtoken.SignatureAlgorithm
 import java.util.*
@@ -37,5 +39,18 @@ class JWTGenerator {
         builder.setExpiration(exp)
 
         return builder.compact()
+    }
+
+    fun decodeJWT(jwt: String): Claims{
+        try {
+            val claims: Claims = Jwts.parserBuilder()
+                .setSigningKey(SECRET_KEY.toByteArray())
+                .build()
+                .parseClaimsJws(jwt).body
+            return claims
+        } catch (e: JwtException){
+            e.printStackTrace()
+            throw RuntimeException("Invalid Token")
+        }
     }
 }

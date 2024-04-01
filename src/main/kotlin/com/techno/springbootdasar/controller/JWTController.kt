@@ -1,6 +1,8 @@
 package com.techno.springbootdasar.controller
 
+import com.techno.springbootdasar.domain.dto.req.ReqDecodeJWTDto
 import com.techno.springbootdasar.domain.dto.req.ReqEncodeJWTDto
+import com.techno.springbootdasar.domain.dto.res.ResDecodeJWTDto
 import com.techno.springbootdasar.domain.dto.res.ResEncodeJWTDto
 import com.techno.springbootdasar.domain.dto.res.ResMessageDto
 import com.techno.springbootdasar.util.JWTGenerator
@@ -22,4 +24,18 @@ class JWTController {
             data = ResEncodeJWTDto(request.id, token)
         ))
     }
+    @PostMapping("/decode")
+    fun decodeJWT(@RequestBody request: ReqDecodeJWTDto): ResponseEntity<ResMessageDto<ResDecodeJWTDto>>{
+        val claim = JWTGenerator().decodeJWT(request.token)
+        return ResponseEntity.ok(ResMessageDto(
+            message = "Success Decode JWT",
+            data = ResDecodeJWTDto(
+                claim["id"].toString(),
+                claim["email"].toString(),
+                claim["password"].toString(),
+                claim["role"].toString(),
+            )
+        ))
+    }
+
 }
