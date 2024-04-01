@@ -1,5 +1,6 @@
 package com.techno.springbootdasar.util
 
+import com.techno.springbootdasar.domain.dto.req.ReqEncodeJWTDto
 import io.jsonwebtoken.Jwt
 import io.jsonwebtoken.JwtBuilder
 import io.jsonwebtoken.Jwts
@@ -13,7 +14,7 @@ class JWTGenerator {
         private val instance: JWTGenerator = JWTGenerator()
     }
 
-    fun createJWT(id: String, subject: String): String {
+    fun createJWT(req: ReqEncodeJWTDto): String {
         val signatureAlgorithm: SignatureAlgorithm = SignatureAlgorithm.HS256
         val nowMills: Long = System.currentTimeMillis()
         val now = Date(nowMills)
@@ -21,9 +22,12 @@ class JWTGenerator {
         val apiKeySecretBytes = SECRET_KEY.toByteArray()
         val signingKey = SecretKeySpec(apiKeySecretBytes, signatureAlgorithm.jcaName)
 
-        val builder: JwtBuilder = Jwts.builder().setId(id)
+        val builder: JwtBuilder = Jwts.builder().setSubject(req.id)
             .setIssuedAt(now)
-            .setSubject(subject)
+            .claim("id", req.id)
+            .claim("role", req.role)
+            .claim("email", req.email)
+            .claim("password", req.password)
             .setIssuer("technocenter")
             .setAudience("technocenter")
             .signWith(signingKey, signatureAlgorithm)
