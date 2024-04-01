@@ -1,6 +1,9 @@
 package com.techno.springbootdasar.util
 
 import com.techno.springbootdasar.domain.dto.req.ReqEncodeJWTDto
+import com.techno.springbootdasar.domain.dto.req.ReqEncodeProfileDto
+import com.techno.springbootdasar.domain.dto.req.ReqLoginDto
+import com.techno.springbootdasar.domain.dto.req.ReqLoginJwtDto
 import io.jsonwebtoken.Claims
 import io.jsonwebtoken.Jwt
 import io.jsonwebtoken.JwtBuilder
@@ -52,5 +55,29 @@ class JWTGenerator {
             e.printStackTrace()
             throw RuntimeException("Invalid Token")
         }
+    }
+
+    fun login(req: ReqLoginJwtDto): String{
+        val signatureAlgorithm: SignatureAlgorithm = SignatureAlgorithm.HS256
+        val nowMillis: Long = System.currentTimeMillis()
+        val now = Date(nowMillis)
+
+        val apiKeySecretBytes = SECRET_KEY.toByteArray()
+        val signInKey = SecretKeySpec(apiKeySecretBytes, signatureAlgorithm.jcaName)
+
+        val builder: JwtBuilder = Jwts.builder().setSubject(req.id.toString())
+            .claim("id", req.id)
+            .claim("name", req.name)
+            .claim("username", req.username)
+            .claim("email", req.email)
+            .setIssuer("technocenter")
+            .setAudience("technocenter")
+            .signWith(signInKey, signatureAlgorithm)
+
+        val expMillis = nowMillis + 3600000L
+        val exp = Date(expMillis)
+        builder.setExpiration(exp)
+
+        return builder.compact()
     }
 }
