@@ -15,6 +15,11 @@ spring:
     show-sql: true
     generate-ddl: true
 
+header:
+  request:
+#    api-key: 6b98ebdd-ba06-492c-9d47-3895e190263e
+    api-key: ${API_KEY}
+
 name:
   firstName: Latif
   lastName: irfan
