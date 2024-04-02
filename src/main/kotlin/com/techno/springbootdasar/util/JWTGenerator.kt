@@ -4,6 +4,7 @@ import com.techno.springbootdasar.domain.dto.req.ReqEncodeJWTDto
 import com.techno.springbootdasar.domain.dto.req.ReqEncodeProfileDto
 import com.techno.springbootdasar.domain.dto.req.ReqLoginDto
 import com.techno.springbootdasar.domain.dto.req.ReqLoginJwtDto
+import com.techno.springbootdasar.exception.DataNotFoundException
 import io.jsonwebtoken.Claims
 import io.jsonwebtoken.Jwt
 import io.jsonwebtoken.JwtBuilder
@@ -53,7 +54,7 @@ class JWTGenerator {
             return claims
         } catch (e: JwtException){
             e.printStackTrace()
-            throw RuntimeException("Invalid Token")
+            throw DataNotFoundException("Invalid Token")
         }
     }
 
